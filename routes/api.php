@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AffiliateController;
 use App\Http\Controllers\AuthController;
+use App\Http\Middleware\VerifyToken;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::prefix('affiliates')->group(function () {
+Route::middleware([VerifyToken::class])->prefix('affiliates')->group(function () {
     Route::get('/', [AffiliateController::class, 'index']);
     Route::get('/{uuid}', [AffiliateController::class, 'show']);
     Route::post('/', [AffiliateController::class, 'store']);
